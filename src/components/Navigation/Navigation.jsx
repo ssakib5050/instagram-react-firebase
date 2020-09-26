@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import "./Navigation.css";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faPlus,
+  faCompass,
+  faHeart,
+  faUser,
+  faSearch,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
+
+function Navigation() {
+  const [navInputFocus, setNavInputFocus] = useState(false);
+  const [navInput, setNavInput] = useState("");
+  return (
+    <div className="nav__container">
+      <div className="container">
+        <div className="nav__wrapper">
+          <div className="nav__brand">
+            <img
+              src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
+              alt=""
+              className="nav__brand_img"
+            />
+          </div>
+
+          <div className="nav__searchBar">
+            <FontAwesomeIcon
+              className={`nav__searchBar_search ${
+                navInputFocus ? "active" : navInput ? "active" : ""
+              }`}
+              icon={faSearch}
+            />
+            <input
+              type="text"
+              placeholder="Search"
+              className={`nav__searchBar_input ${
+                navInputFocus ? "active" : navInput ? "active" : ""
+              }`}
+              onFocus={() => setNavInputFocus(true)}
+              onBlur={() => setNavInputFocus(false)}
+              onChange={(e) => setNavInput(e.target.value)}
+              value={navInput}
+            />
+            <FontAwesomeIcon
+              className={`nav__searchBar_cross ${
+                navInputFocus ? "active" : ""
+              }`}
+              icon={faTimesCircle}
+            />
+          </div>
+
+          <div className="nav__menubar">
+            <div className="nav__menubar_icon_wrap">
+              <FontAwesomeIcon className="nav__menubar_icon" icon={faHome} />
+            </div>
+            <div className="nav__menubar_icon_wrap">
+              <FontAwesomeIcon className="nav__menubar_icon" icon={faPlus} />
+            </div>
+            <div className="nav__menubar_icon_wrap">
+              <FontAwesomeIcon className="nav__menubar_icon" icon={faCompass} />
+            </div>
+            <div className="nav__menubar_icon_wrap">
+              <FontAwesomeIcon className="nav__menubar_icon" icon={faHeart} />
+            </div>
+            <div className="nav__menubar_icon_wrap">
+              <FontAwesomeIcon className="nav__menubar_icon" icon={faUser} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Navigation;
