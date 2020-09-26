@@ -10,7 +10,12 @@ import {
   faUser,
   faSearch,
   faTimesCircle,
+  faSave,
+  faCog,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { Dropdown } from "react-bootstrap";
 
 function Navigation() {
   const [navInputFocus, setNavInputFocus] = useState(false);
@@ -27,7 +32,7 @@ function Navigation() {
             />
           </div>
 
-          <div className="nav__searchBar">
+          <div className="nav__searchBar d-none d-md-block">
             <FontAwesomeIcon
               className={`nav__searchBar_search ${
                 navInputFocus ? "active" : navInput ? "active" : ""
@@ -66,9 +71,50 @@ function Navigation() {
             <div className="nav__menubar_icon_wrap">
               <FontAwesomeIcon className="nav__menubar_icon" icon={faHeart} />
             </div>
-            <div className="nav__menubar_icon_wrap">
+
+            {/* <div className="nav__menubar_icon_wrap">
               <FontAwesomeIcon className="nav__menubar_icon" icon={faUser} />
-            </div>
+            </div> */}
+
+            <Dropdown className="nav__menubar_lastIcon_wrapper">
+              <Dropdown.Toggle className="nav__menubar_icon_wrap">
+                <FontAwesomeIcon className="nav__menubar_icon" icon={faUser} />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#">
+                  <FontAwesomeIcon
+                    className="nav__menubar_lastDropdown_item"
+                    icon={faUser}
+                  />{" "}
+                  Profile
+                </Dropdown.Item>
+                <Dropdown.Item href="#">
+                  <FontAwesomeIcon
+                    className="nav__menubar_lastDropdown_item nav__menubar_lastDropdown_item_saved"
+                    icon={faSave}
+                  />
+                  Saved
+                </Dropdown.Item>
+                <Dropdown.Item href="#">
+                  <FontAwesomeIcon
+                    className="nav__menubar_lastDropdown_item"
+                    icon={faCog}
+                  />
+                  Settings
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#"
+                  className="nav__menubar_lastDropdown_item_logout"
+                >
+                  <FontAwesomeIcon
+                    className="nav__menubar_lastDropdown_item "
+                    icon={faSignOutAlt}
+                  />
+                  Logout
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
       </div>
