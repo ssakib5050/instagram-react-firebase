@@ -18,7 +18,7 @@ import { Modal, Button } from "react-bootstrap";
 
 function Post() {
   const [postMoreModal, setPostMoreModal] = useState(false);
-  const [postContentModal, setPostContentModal] = useState(false);
+  const [postContentModal, setPostContentModal] = useState(true); /* <- This*/
   const [postLiked, setPostLiked] = useState(false);
   const [comments, setComments] = [
     { id: 1, username: "ssakib4050", comment: "WoW Nice Pic" },
@@ -87,7 +87,7 @@ function Post() {
                         />
                       </div>
                       <div style={{ marginLeft: "50px", paddingRight: "20px" }}>
-                        <b>MD Sadman Sakib</b>
+                        <b>MD Sadman Sakib</b>{" "}
                         <span>
                           Hi Lorem ipsum dolor sit amet, consectetur adipisicing
                           elit. Voluptates necessitatibus aspernatur voluptatum
@@ -103,8 +103,8 @@ function Post() {
                         1d
                       </div>
                     </div>
-
                     {/* Comment */}
+                    <Comment />
                   </div>
                 </div>
                 <div className="post__contentModal_content_wrap_footer dev">

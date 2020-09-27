@@ -1,0 +1,35 @@
+.comments__wrap {
+  border: 1px solid;
+  position: relative;
+}
+.comment__image_wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 2rem;
+  position: absolute;
+}
+.comment__image {
+  width: 100%;
+  border-radius: 2rem;
+}
+
+.comment__body_wrap {
+  padding-left: 45px;
+}
+.comment__body_wrap_container {
+  display: flex;
+}
+.comment_like_icon {
+  cursor: pointer;
+  margin-top: 5px;
+}
+.comment_like_comment_info_wrap {
+  padding-left: 45px;
+  margin-top: 5px;
+}
+.comment_like_comment_info {
+  font-size: 14px;
+  margin-right: 15px;
+  color: #8e8e8e;
+  cursor: pointer;
+}

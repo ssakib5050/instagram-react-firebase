@@ -209,7 +209,7 @@
 
 .post__contentModal_content_wrap_content_container {
   border: 2px solid green;
-  min-height: 390px;
+  height: 390px;
   overflow-x: auto;
 }
 
