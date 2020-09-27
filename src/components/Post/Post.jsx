@@ -18,7 +18,7 @@ import { Modal, Button } from "react-bootstrap";
 
 function Post() {
   const [postMoreModal, setPostMoreModal] = useState(false);
-  const [postContentModal, setPostContentModal] = useState(true); /* <- This*/
+  const [postContentModal, setPostContentModal] = useState(false);
   const [postLiked, setPostLiked] = useState(false);
   const [comments, setComments] = [
     { id: 1, username: "ssakib4050", comment: "WoW Nice Pic" },
@@ -44,7 +44,7 @@ function Post() {
       >
         <Modal.Body>
           <div className="row">
-            <div className="col-8 pr-0">
+            <div className="col-12 col-lg-8 pr-lg-0">
               <div className="dev" style={{ height: "100%" }}>
                 <img
                   src="https://static.scientificamerican.com/sciam/cache/file/4E0744CD-793A-4EF8-B550B54F7F2C4406.jpg"
@@ -52,7 +52,7 @@ function Post() {
                 />
               </div>
             </div>
-            <div className="col-4 pl-0">
+            <div className="col-12 col-lg-4 pl-lg-0 ">
               <div className="post__contentModal_content_wrap">
                 <div className="post__contentModal_content_wrap_header dev">
                   <div className="post__contentModal_content_wrap_header_container">

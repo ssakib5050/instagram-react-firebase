@@ -2,6 +2,7 @@ import React from "react";
 import "./MainContent.css";
 
 import Post from "../Post/Post";
+import Sidebar from "../Sidebar/Sidebar";
 
 function MainContent() {
   return (
@@ -13,7 +14,7 @@ function MainContent() {
           </div>
 
           <div className="col-5">
-            <div className="dev">Sidebar</div>
+            <Sidebar />
           </div>
         </div>
       </div>
