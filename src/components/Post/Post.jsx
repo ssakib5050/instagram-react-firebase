@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Post.css";
 
 import Comment from "../Comment/Comment";
@@ -14,22 +14,76 @@ import {
   faPaperPlane,
   faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { db } from "../../firebase";
 
-function Post() {
+function Post({
+  id,
+  username,
+  postImage,
+  postTags,
+  profileImage,
+  likes,
+  comments,
+}) {
   const [postMoreModal, setPostMoreModal] = useState(false);
   const [postContentModal, setPostContentModal] = useState(false);
   const [postLiked, setPostLiked] = useState(false);
-  const [comments, setComments] = [
-    { id: 1, username: "ssakib4050", comment: "WoW Nice Pic" },
-    { id: 2, username: "ssakib4050", comment: "WoW Nice Pic (1)" },
-    { id: 3, username: "ssakib4050", comment: "WoW Nice Pic (2)" },
-  ];
 
   const postOpen = () => setPostMoreModal(true);
   const postClose = () => setPostMoreModal(false);
   const postContentOpen = () => setPostContentModal(true);
   const postContentClose = () => setPostContentModal(false);
+
+  // console.log(id, username, postImage, postTags, profileImage, likes, comments);
+
+  const likeHandle = () => {
+    if (!likes.find((like) => like == username)) {
+      console.log("Haha");
+      db.collection("posts")
+        .doc(id)
+        .set(
+          {
+            likes: [...likes, username],
+          },
+          { merge: true }
+        );
+    } else {
+      console.log(likes.find((like) => like == username));
+
+      db.collection("posts")
+        .doc(id)
+        .set(
+          {
+            likes: likes.filter((like) => like != username),
+          },
+          { merge: true }
+        );
+    }
+    // console.log(
+    //   "This ---> ",
+    //   ["taskin", "Sajib", "ssakib4050"].find((like) => like == "ssakib4050")
+    // );
+    // if(username == ""){
+
+    // }
+    // db.collection("posts")
+    //   .doc(id)
+    //   .set(
+    //     {
+    //       likes: [...likes, { name: "ssakib4050" }],
+    //     },
+    //     { merge: true }
+    //   );
+  };
+
+  // id={post.id}
+  // username={post.post.username}
+  // postImage={post.post.postImage}
+  // postTags={post.post.postTags}
+  // profileImage={post.post.profileImage}
+  // likes={post.post.likes}
+  // comments={post.post.comments}
 
   return (
     <div className="post__container">
@@ -64,7 +118,7 @@ function Post() {
                       />
                     </div>
                     <b className="post__contentModal_content_wrap_header_username">
-                      MD Sadman Sakib
+                      {username}
                     </b>
                   </div>
                   <div
@@ -191,7 +245,7 @@ function Post() {
               />
             </div>
             <div className="post__username">
-              <b>MD Sadman Sakib</b>
+              <b>{username}</b>
             </div>
           </div>
 
@@ -200,20 +254,13 @@ function Post() {
           </div>
         </div>
         <div>
-          <img
-            src="https://static.scientificamerican.com/sciam/cache/file/4E0744CD-793A-4EF8-B550B54F7F2C4406.jpg"
-            alt=""
-            className="post__image"
-          />
+          <img src={postImage} alt="" className="post__image" />
         </div>
         <div className="post__info_wrap">
           <div className="post__info">
             <div className="post_info_like_comment">
-              <div
-                className="post__info_liked"
-                onClick={() => setPostLiked(!postLiked)}
-              >
-                {postLiked ? (
+              <div className="post__info_liked" onClick={likeHandle}>
+                {likes.find((like) => like == username) ? (
                   <FontAwesomeIcon icon={liked} className="post__liked" />
                 ) : (
                   <FontAwesomeIcon icon={like} className="post__like" />
@@ -234,7 +281,7 @@ function Post() {
               </div>
             </div>
           </div>
-          <p className="mt-2 mb-2">1280 likes</p>
+          <p className="mt-2 mb-2">{likes.length} likes</p>
 
           <div className="comment__wrap">
             <div className="comment">
@@ -244,7 +291,7 @@ function Post() {
           </div>
 
           <button className="post__viewComments" onClick={postContentOpen}>
-            View all 100 comments
+            View all {comments.length} comments
           </button>
 
           <PostComment />

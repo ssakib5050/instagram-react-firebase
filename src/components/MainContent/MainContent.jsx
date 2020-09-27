@@ -1,19 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./MainContent.css";
 
 import Post from "../Post/Post";
 import Sidebar from "../Sidebar/Sidebar";
 
+import { db } from "../../firebase";
+
 function MainContent() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    db.collection("posts").onSnapshot((snapshot) => {
+      // setPosts(snapshot.docs.map((doc) => doc.data()));
+      setPosts(snapshot.docs.map((doc) => ({ id: doc.id, post: doc.data() })));
+    });
+  }, []);
+
+  // console.log(posts);
+
   return (
     <div className="mainContent__container dev">
       <div className="mainContent_wrapper container dev ">
         <div className="row">
           <div className="col-12 col-lg-7">
-            <Post />
+            {posts.map((post) => (
+              <Post
+                key={post.id}
+                id={post.id}
+                username={post.post.username}
+                postImage={post.post.postImage}
+                postTags={post.post.postTags}
+                profileImage={post.post.profileImage}
+                likes={post.post.likes}
+                comments={post.post.comments}
+              />
+            ))}
           </div>
 
-          <div className="col-5">
+          <div className="col-5 d-none d-lg-block">
             <Sidebar />
           </div>
         </div>
