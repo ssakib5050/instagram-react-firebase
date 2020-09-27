@@ -35,7 +35,6 @@ function Navigation() {
 
   const handlePost = () => {
     if (postCaption && postTags && imageFileTypeMatch(postPhoto.name)) {
-      console.log(postPhoto.name);
       const file = postPhoto;
       const uploadTask = storage
         .ref()
@@ -46,8 +45,6 @@ function Navigation() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          console.log(snapshot);
-
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setPostProgressbar(progress + 1);
@@ -56,24 +53,20 @@ function Navigation() {
           console.log(error);
         },
         () => {
-          const downloadURl = uploadTask.snapshot.ref
-            .getDownloadURL()
-            .then((downloadUrl) => {
-              db.collection("posts").add({
-                username: "ssakib4050",
-                postCaption: "",
-                postTags: "",
-                postImage: "",
-                profileImage: "",
-                likes: [],
-                comments: [],
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              });
-
-              cancelPost();
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
+            db.collection("posts").add({
+              username: "ssakib4050",
+              postCaption: postCaption,
+              postTags: postTags,
+              postImage: downloadUrl,
+              profileImage: "",
+              likes: [],
+              comments: [],
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
 
-          console.log(downloadURl);
+            cancelPost();
+          });
         }
       );
     } else {
