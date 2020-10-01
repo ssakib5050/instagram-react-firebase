@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./PostComment";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart as liked,
-  faEllipsisH,
+  // faEllipsisH,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart as like,
-  faComment,
-  faPaperPlane,
-  faBookmark,
+  // faComment,
+  // faPaperPlane,
+  // faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
 import { db } from "../../firebase";
 
@@ -22,8 +22,8 @@ function PostComment({
   commentLiked,
   postId,
 }) {
-  const [postComments, setPostComments] = useState([]);
-  const [postCommentLiked, setPostCommentLiked] = useState(false);
+  // const [postComments, setPostComments] = useState([]);
+  // const [postCommentLiked, setPostCommentLiked] = useState(false);
 
   // console.log("id ---> ", id);
   // console.log("username ---> ", username);
@@ -64,7 +64,7 @@ function PostComment({
     // console.log("timestamp -> ", timestamp);
     // console.log("commentLiked -> ", commentLiked);
 
-    if (!commentLiked.find((comment) => comment == username)) {
+    if (!commentLiked.find((comment) => comment === username)) {
       db.collection("posts")
         .doc(postId)
         .collection("comments")
@@ -82,7 +82,9 @@ function PostComment({
         .doc(id)
         .set(
           {
-            commentLiked: commentLiked.filter((comment) => comment != username),
+            commentLiked: commentLiked.filter(
+              (comment) => comment !== username
+            ),
           },
           { merge: true }
         );
@@ -90,7 +92,7 @@ function PostComment({
   };
 
   const commentLikedDetect = commentLiked.find(
-    (comment) => comment == username
+    (comment) => comment === username
   );
   return (
     <div className="comment__wrap">

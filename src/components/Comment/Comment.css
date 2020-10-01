@@ -15,6 +15,7 @@
 
 .comment__body_wrap {
   padding-left: 45px;
+  flex: 1;
 }
 .comment__body_wrap_container {
   display: flex;
@@ -32,4 +33,8 @@
   margin-right: 15px;
   color: #8e8e8e;
   cursor: pointer;
+}
+
+.comment_like_icon.active {
+  color: red;
 }

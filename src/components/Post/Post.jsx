@@ -16,9 +16,8 @@ import {
   faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
 import { Modal } from "react-bootstrap";
-import firebase from "firebase";
+// import firebase from "firebase";
 import { db } from "../../firebase";
-import { v4 as uuidv4 } from "uuid";
 
 function Post({
   postId,
@@ -33,7 +32,7 @@ function Post({
 }) {
   const [postMoreModal, setPostMoreModal] = useState(false);
   const [postContentModal, setPostContentModal] = useState(false);
-  const [postLiked, setPostLiked] = useState(false);
+  // const [postLiked, setPostLiked] = useState(false);
   const [postCommentInput, setPostCommentInput] = useState("");
   const [postComments, setPostComments] = useState([]);
 
@@ -74,7 +73,7 @@ function Post({
   // console.log("comments --> ", comments);
 
   const likeHandle = () => {
-    if (!likes.find((like) => like == username)) {
+    if (!likes.find((like) => like === username)) {
       db.collection("posts")
         .doc(postId)
         .set(
@@ -90,7 +89,7 @@ function Post({
         .doc(postId)
         .set(
           {
-            likes: likes.filter((like) => like != username),
+            likes: likes.filter((like) => like !== username),
           },
           { merge: true }
         );
@@ -150,8 +149,8 @@ function Post({
             <div className="col-12 col-lg-8 pr-lg-0">
               <div className="dev" style={{ height: "100%" }}>
                 <img
-                  src="https://static.scientificamerican.com/sciam/cache/file/4E0744CD-793A-4EF8-B550B54F7F2C4406.jpg"
-                  className="post__modalContent_img"
+                  src={postImage}
+                  style={{ height: "100%", width: "100%" }}
                 />
               </div>
             </div>
@@ -161,7 +160,7 @@ function Post({
                   <div className="post__contentModal_content_wrap_header_container">
                     <div className="post__contentModal_content_wrap_header_img_wrap">
                       <img
-                        src="https://i.dailymail.co.uk/i/newpix/2018/04/11/21/4B0BF54900000578-5605081-Testing_an_idea_A_user_on_a_bodybuilding_forum_revealed_how_he_c-m-58_1523478697639.jpg"
+                        src={profileImage}
                         alt=""
                         className="post__contentModal_content_wrap_header_img"
                       />
@@ -181,7 +180,7 @@ function Post({
                 <div className="post__contentModal_content_wrap_content dev">
                   <div className="post__contentModal_content_wrap_content_container">
                     {/* Comment */}
-                    <div className="post__contentModal_content_profile_wrap">
+                    {/* <div className="post__contentModal_content_profile_wrap">
                       <div className="post__contentModal_content_profile">
                         <img
                           src="https://i.dailymail.co.uk/i/newpix/2018/04/11/21/4B0BF54900000578-5605081-Testing_an_idea_A_user_on_a_bodybuilding_forum_revealed_how_he_c-m-58_1523478697639.jpg"
@@ -193,18 +192,42 @@ function Post({
                         <b>{username}</b> <span>{postCaption}</span>
                       </div>
                       <div className="post__contentModal_content_profile_ago">
-                        {timestamp}
+                        {"timestamp"}
                       </div>
-                    </div>
+                    </div> */}
                     {/* Comment */}
-                    <Comment />
+
+                    {postComments.map((comment) => (
+                      <Comment
+                        key={comment.id}
+                        postId={postId}
+                        commentId={comment.id}
+                        username={comment.comment.username}
+                        comment={comment.comment.comment}
+                        commentLiked={comment.comment.commentLiked}
+                        timestamp={comment.comment.timestamp}
+                      />
+                    ))}
+
+                    {/* {postComments.map((comments) => console.log(comments))} */}
                   </div>
                 </div>
                 <div className="post__contentModal_content_wrap_footer dev">
                   <div className="post__contentModal_content_wrap_footer_wrap">
                     <div className="post__contentModal_content_wrap_footer_wrap_like_info">
-                      <div className="post__contentModal_content_wrap_footer_wrap_like_info_item">
-                        <FontAwesomeIcon icon={liked} className="post__liked" />
+                      <div
+                        className="post__contentModal_content_wrap_footer_wrap_like_info_item"
+                        onClick={likeHandle}
+                      >
+                        {likes.find((like) => like === username) ? (
+                          <FontAwesomeIcon
+                            icon={liked}
+                            className="post__liked"
+                          />
+                        ) : (
+                          <FontAwesomeIcon icon={like} className="post__like" />
+                        )}
+                        {/* <FontAwesomeIcon icon={liked} className="post__liked" /> */}
                       </div>
 
                       <div className="post__contentModal_content_wrap_footer_wrap_like_info_item">
@@ -230,7 +253,7 @@ function Post({
                     </div>
                   </div>
                   <b className="post__contentModal_content_wrap_footer_wrap_like_info_timeline">
-                    2000 likes
+                    {likes.length} likes
                   </b>
                   <div className="post__contentModal_content_wrap_footer_wrap_like_info_ago">
                     1 DAY AGO
@@ -277,11 +300,7 @@ function Post({
         <div className="post__header">
           <div className="post__image_username">
             <div className="post__img_wrap">
-              <img
-                src="https://i.dailymail.co.uk/i/newpix/2018/04/11/21/4B0BF54900000578-5605081-Testing_an_idea_A_user_on_a_bodybuilding_forum_revealed_how_he_c-m-58_1523478697639.jpg"
-                alt=""
-                className="post__img"
-              />
+              <img src={profileImage} alt="" className="post__img" />
             </div>
             <div className="post__username">
               <b>{username}</b>
@@ -299,7 +318,7 @@ function Post({
           <div className="post__info">
             <div className="post_info_like_comment">
               <div className="post__info_liked" onClick={likeHandle}>
-                {likes.find((like) => like == username) ? (
+                {likes.find((like) => like === username) ? (
                   <FontAwesomeIcon icon={liked} className="post__liked" />
                 ) : (
                   <FontAwesomeIcon icon={like} className="post__like" />
