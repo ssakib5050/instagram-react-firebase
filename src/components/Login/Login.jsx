@@ -26,8 +26,8 @@ function Login() {
   };
 
   return (
-    <div className="login__container dev container-fluid">
-      <div className="login__wrap dev">
+    <div className="login__container container-fluid">
+      <div className="login__wrap">
         <div className="row login__row">
           <div className="col-12 col-md-6 ">
             <div className="dev login__main">

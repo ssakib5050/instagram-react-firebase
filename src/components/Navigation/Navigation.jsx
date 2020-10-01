@@ -17,7 +17,7 @@ import {
 
 import { Dropdown, Button, Modal, Form, ProgressBar } from "react-bootstrap";
 import firebase from "firebase";
-import { db, storage } from "../../firebase";
+import { db, storage, auth } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 
 function Navigation() {
@@ -219,6 +219,7 @@ function Navigation() {
                 <Dropdown.Item
                   href="#"
                   className="nav__menubar_lastDropdown_item_logout"
+                  onClick={() => auth.signOut()}
                 >
                   <FontAwesomeIcon
                     className="nav__menubar_lastDropdown_item "

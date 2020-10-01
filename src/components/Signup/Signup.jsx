@@ -7,12 +7,16 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [signupError, setSignupError] = useState("");
 
   const signupHandle = (e) => {
     e.preventDefault();
+
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .catch((error) => setSignupError(error.message));
     console.log("Sign Up", email, password);
   };
 
@@ -24,8 +28,8 @@ function Signup() {
     }
   };
   return (
-    <div className="login__container dev container-fluid">
-      <div className="login__wrap dev">
+    <div className="login__container container-fluid">
+      <div className="login__wrap">
         <div className="row login__row">
           <div className="col-12 col-md-6 ">
             <div className="dev login__main">
@@ -47,13 +51,6 @@ function Signup() {
                   placeholder="Mobile Number or Email"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                />
-                <input
-                  type="text"
-                  className="login__input_password"
-                  placeholder="Full Name"
-                  onChange={(e) => setFullName(e.target.value)}
-                  value={fullName}
                 />
 
                 <input
@@ -77,6 +74,12 @@ function Signup() {
                   className="login__input_submit"
                   onClick={signupHandle}
                 />
+
+                {signupError && (
+                  <p className="mt-2 text-center text-danger login__login_error">
+                    {signupError}
+                  </p>
+                )}
 
                 <Link to="/" className="login__reset_password">
                   Forgot Password
