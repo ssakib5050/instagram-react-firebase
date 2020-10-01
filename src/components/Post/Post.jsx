@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Post.css";
 
 import Comment from "../Comment/Comment";
+import PostComment from "../PostComment/PostComment";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,33 +16,67 @@ import {
   faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
 import { Modal } from "react-bootstrap";
+import firebase from "firebase";
 import { db } from "../../firebase";
+import { v4 as uuidv4 } from "uuid";
 
 function Post({
-  id,
+  postId,
   username,
   postImage,
+  postCaption,
   postTags,
   profileImage,
   likes,
   comments,
+  timestamp,
 }) {
   const [postMoreModal, setPostMoreModal] = useState(false);
   const [postContentModal, setPostContentModal] = useState(false);
   const [postLiked, setPostLiked] = useState(false);
+  const [postCommentInput, setPostCommentInput] = useState("");
+  const [postComments, setPostComments] = useState([]);
 
   const postOpen = () => setPostMoreModal(true);
   const postClose = () => setPostMoreModal(false);
   const postContentOpen = () => setPostContentModal(true);
   const postContentClose = () => setPostContentModal(false);
 
+  useEffect(() => {
+    db.collection("posts")
+      .doc(postId)
+      .collection("comments")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setPostComments(
+          snapshot.docs.map((data) => ({
+            id: data.id,
+            comment: data.data(),
+            postId: postId,
+          }))
+        );
+      });
+
+    // db.collectionGroup("comments").onSnapshot((snapshot) =>
+    //   console.log(snapshot.docs.map((data) => data.data()))
+    // );
+  }, []);
+
+  // console.log("Sakib -> ", postComments);
+
   // console.log(id, username, postImage, postTags, profileImage, likes, comments);
+  // console.log("id --> ", id);
+  // console.log("username --> ", username);
+  // console.log("postImage --> ", postImage);
+  // console.log("postCaption --> ", postCaption);
+  // console.log("profileImage --> ", profileImage);
+  // console.log("likes --> ", likes);
+  // console.log("comments --> ", comments);
 
   const likeHandle = () => {
     if (!likes.find((like) => like == username)) {
-      console.log("Haha");
       db.collection("posts")
-        .doc(id)
+        .doc(postId)
         .set(
           {
             likes: [...likes, username],
@@ -49,10 +84,10 @@ function Post({
           { merge: true }
         );
     } else {
-      console.log(likes.find((like) => like == username));
+      // console.log(likes.find((like) => like == username));
 
       db.collection("posts")
-        .doc(id)
+        .doc(postId)
         .set(
           {
             likes: likes.filter((like) => like != username),
@@ -75,6 +110,20 @@ function Post({
     //     },
     //     { merge: true }
     //   );
+  };
+
+  const commentHandle = () => {
+    db.collection("posts")
+      .doc(postId)
+      .collection("comments")
+      // .doc(id)
+      .add({
+        username: username,
+        comment: postCommentInput,
+        timestamp: Date.now(),
+        commentLiked: [],
+      });
+    setPostCommentInput("");
   };
 
   // id={post.id}
@@ -141,20 +190,10 @@ function Post({
                         />
                       </div>
                       <div style={{ marginLeft: "50px", paddingRight: "20px" }}>
-                        <b>MD Sadman Sakib</b>{" "}
-                        <span>
-                          Hi Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Voluptates necessitatibus aspernatur voluptatum
-                          quod quae quidem tempora ad eos fuga deleniti quas,
-                          fugit labore dolor impedit placeat, recusandae
-                          corrupti veniam vitae. Veniam earum dolorem possimus
-                          quo! Nostrum quia ipsam, minima eius recusandae
-                          provident ipsa distinctio corporis, veritatis atque
-                          adipisci illo laboriosam.
-                        </span>
+                        <b>{username}</b> <span>{postCaption}</span>
                       </div>
                       <div className="post__contentModal_content_profile_ago">
-                        1d
+                        {timestamp}
                       </div>
                     </div>
                     {/* Comment */}
@@ -285,57 +324,78 @@ function Post({
 
           <div className="comment__wrap">
             <div className="comment">
-              <span className="font-weight-bold">MD Sadman Sakib</span>{" "}
-              <span>WoW This is a Nice Pic</span>
+              <span className="font-weight-bold">{username}</span>{" "}
+              <span>{postCaption}</span>
             </div>
           </div>
 
           <button className="post__viewComments" onClick={postContentOpen}>
-            View all {comments.length} comments
+            View all {postComments.length} comments
           </button>
 
-          <PostComment />
-          <PostComment />
-          <PostComment />
+          {/* {console.log("comment->", comments)} */}
+          {postComments.slice(0, 3).map(({ id, comment }) => (
+            <PostComment
+              key={id}
+              id={id}
+              postId={postId}
+              username={comment.username}
+              comment={comment.comment}
+              timestamp={comment.timestamp}
+              commentLiked={comment.commentLiked}
+            />
+          ))}
 
-          <p className="mt-1 mb-0 post__viewComments post_ago">2 Days Ago</p>
+          {/* {postComments.slice(0, 3).map(({ id, comment }) => console.log())} */}
+
+          <p className="mt-1 mb-0 post__viewComments post_ago">
+            {timestamp
+              ? timeDifference(new Date(), new Date(timestamp.seconds * 1000))
+              : ""}
+          </p>
         </div>
         <div className="post__comment_panel">
           <input
             type="text"
             className="post__comment_panel_input"
             placeholder="Add a comment..."
+            onChange={(e) => setPostCommentInput(e.target.value)}
+            value={postCommentInput}
           />
-          <button className="post__comment_panel_button">Post</button>
+          <button
+            className="post__comment_panel_button"
+            onClick={commentHandle}
+          >
+            Post
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-function PostComment() {
-  const [postCommentLiked, setPostCommentLiked] = useState(false);
-  return (
-    <div className="comment__wrap">
-      <div className="comment">
-        <span className="font-weight-bold">MD Sadman Sakib</span>{" "}
-        <span>WoW This is a Nice Pic</span>
-      </div>
-      <div onClick={() => setPostCommentLiked(!postCommentLiked)}>
-        {postCommentLiked ? (
-          <FontAwesomeIcon
-            icon={liked}
-            className="post__liked post__comment_liked"
-          />
-        ) : (
-          <FontAwesomeIcon
-            icon={like}
-            className="post__like post__comment_liked"
-          />
-        )}
-      </div>
-    </div>
-  );
+function timeDifference(current, previous) {
+  var msPerMinute = 60 * 1000;
+  var msPerHour = msPerMinute * 60;
+  var msPerDay = msPerHour * 24;
+  var msPerMonth = msPerDay * 30;
+  var msPerYear = msPerDay * 365;
+
+  var elapsed = current - previous;
+
+  if (elapsed < msPerMinute) {
+    return Math.round(elapsed / 1000) + " seconds ago";
+  } else if (elapsed < msPerHour) {
+    return Math.round(elapsed / msPerMinute) + " minutes ago";
+  } else if (elapsed < msPerDay) {
+    return Math.round(elapsed / msPerHour) + " hours ago";
+  } else if (elapsed < msPerMonth) {
+    return Math.round(elapsed / msPerDay) + " days ago";
+  } else if (elapsed < msPerYear) {
+    return Math.round(elapsed / msPerMonth) + " months ago";
+  } else {
+    return Math.round(elapsed / msPerYear) + " years ago";
+  }
 }
 
 export default Post;
