@@ -20,7 +20,7 @@ function MainContent() {
       });
   }, []);
 
-  console.log("Main ---> ", posts);
+  // console.log("Main ---> ", posts);
 
   return (
     <div className="mainContent__container dev">

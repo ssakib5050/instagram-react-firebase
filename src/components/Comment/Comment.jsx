@@ -17,6 +17,7 @@ function Comment({
   postId,
   commentId,
   username,
+  profileImage,
   comment,
   commentLiked,
   timestamp,
@@ -67,11 +68,7 @@ function Comment({
     <div className="comments__container dev">
       <div className="comments__wrap">
         <div className="comment__image_wrap">
-          <img
-            src="https://i.dailymail.co.uk/i/newpix/2018/04/11/21/4B0BF54900000578-5605081-Testing_an_idea_A_user_on_a_bodybuilding_forum_revealed_how_he_c-m-58_1523478697639.jpg"
-            alt=""
-            className="comment__image"
-          />
+          <img src={profileImage} alt="" className="comment__image" />
         </div>
         <div className="comment__body_wrap_container">
           <div className="comment__body_wrap">

@@ -111,7 +111,8 @@ function Post({
     //   );
   };
 
-  const commentHandle = () => {
+  const commentHandle = (e) => {
+    e.preventDefault();
     db.collection("posts")
       .doc(postId)
       .collection("comments")
@@ -203,6 +204,7 @@ function Post({
                         postId={postId}
                         commentId={comment.id}
                         username={comment.comment.username}
+                        profileImage={profileImage}
                         comment={comment.comment.comment}
                         commentLiked={comment.comment.commentLiked}
                         timestamp={comment.comment.timestamp}
@@ -259,12 +261,21 @@ function Post({
                     1 DAY AGO
                   </div>
                   <div className="post__comment_panel">
-                    <input
-                      type="text"
-                      className="post__comment_panel_input"
-                      placeholder="Add a comment..."
-                    />
-                    <button className="post__comment_panel_button">Post</button>
+                    <form action="" style={{ width: "100%", display: "flex" }}>
+                      <input
+                        type="text"
+                        className="post__comment_panel_input"
+                        placeholder="Add a comment..."
+                        onChange={(e) => setPostCommentInput(e.target.value)}
+                        value={postCommentInput}
+                      />
+                      <button
+                        className="post__comment_panel_button"
+                        onClick={commentHandle}
+                      >
+                        Post
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -374,19 +385,21 @@ function Post({
           </p>
         </div>
         <div className="post__comment_panel">
-          <input
-            type="text"
-            className="post__comment_panel_input"
-            placeholder="Add a comment..."
-            onChange={(e) => setPostCommentInput(e.target.value)}
-            value={postCommentInput}
-          />
-          <button
-            className="post__comment_panel_button"
-            onClick={commentHandle}
-          >
-            Post
-          </button>
+          <form action="" style={{ width: "100%", display: "flex" }}>
+            <input
+              type="text"
+              className="post__comment_panel_input"
+              placeholder="Add a comment..."
+              onChange={(e) => setPostCommentInput(e.target.value)}
+              value={postCommentInput}
+            />
+            <button
+              className="post__comment_panel_button"
+              onClick={commentHandle}
+            >
+              Post
+            </button>
+          </form>
         </div>
       </div>
     </div>
