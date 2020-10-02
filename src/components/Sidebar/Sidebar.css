@@ -14,7 +14,7 @@
 
 .sidebar__userinfo_username {
   font-size: 18px;
-  margin-bottom: 0;
+  margin-bottom: 18px;
 }
 
 .sidebar__userinfo_name {
@@ -39,13 +39,14 @@
 
 .sidebar_suggestions_img_wrap {
   width: 35px;
-  height: 35px;
+  height: 37px;
   border-radius: 2rem;
 }
 
 .sidebar_suggestions_img {
   width: 100%;
   border-radius: 2rem;
+  height: 100%;
 }
 
 .sidebar__profile_manage {

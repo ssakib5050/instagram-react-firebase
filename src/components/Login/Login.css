@@ -18,6 +18,9 @@
   flex-direction: column;
   margin-bottom: 1rem;
   padding: 25px;
+  max-width: 500px;
+  margin: auto;
+  margin-bottom: 1rem;
 }
 .login__brand_wrap {
   margin: auto;

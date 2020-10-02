@@ -1,29 +1,54 @@
 import React from "react";
 import "./Sidebar.css";
 
-function Sidebar() {
+function Sidebar({ photoURL, username }) {
+  const suggestions = [
+    {
+      username: "Cierra Vega",
+      photoURL:
+        "https://sa1s3optim.patientpop.com/assets/images/provider/photos/1888657.jpg",
+    },
+    {
+      username: "Alden Cantrell",
+      photoURL:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSDJ3tpalBt9vTwRsfBlJ1IZ6MryKwFEAu5ng&usqp=CAU",
+    },
+    {
+      username: "Kierra Gentry",
+      photoURL:
+        "https://images.unsplash.com/photo-1589673644418-f8cb57a01d3f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    },
+    {
+      username: "Pierre Cox",
+      photoURL:
+        "https://i.pinimg.com/originals/78/fb/1e/78fb1ebde1bf55630a50b4ca9ee41664.jpg",
+    },
+    {
+      username: "Thomas Crane",
+      photoURL:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTrpQyRAiO4DQH1pX8T2FtAuH5_e2lvDs7t3A&usqp=CAU",
+    },
+  ];
+
   return (
-    <div className="sidebar__container dev">
+    <div className="sidebar__container">
       <div className="sidebar__wrap">
         <div className="sidebar__profile">
-          <img
-            src="https://i.dailymail.co.uk/i/newpix/2018/04/11/21/4B0BF54900000578-5605081-Testing_an_idea_A_user_on_a_bodybuilding_forum_revealed_how_he_c-m-58_1523478697639.jpg"
-            alt=""
-            className="sidebar__profile_image"
-          />
+          <img src={photoURL} alt="" className="sidebar__profile_image" />
         </div>
         <div className="sidebar__userinfo">
-          <h2 className="sidebar__userinfo_username">ssakib4050</h2>
-          <p className="sidebar__userinfo_name">Sadman Sakib</p>
+          <h2 className="sidebar__userinfo_username">{username}</h2>
         </div>
       </div>
       <p className="sidebar__suggestions">Suggestions For You</p>
       <div className="sidebar__suggestions_wrap">
-        <Suggestions />
-        <Suggestions />
-        <Suggestions />
-        <Suggestions />
-        <Suggestions />
+        {suggestions.map((suggestion, index) => (
+          <Suggestions
+            key={index}
+            photoURL={suggestion.photoURL}
+            username={suggestion.username}
+          />
+        ))}
       </div>
 
       <div className="sidebar__menuItems">
@@ -59,19 +84,15 @@ function Sidebar() {
   );
 }
 
-function Suggestions() {
+function Suggestions({ photoURL, username }) {
   return (
     <div className="sidebar__profile_manage">
       <div className="sidebar_profile_username">
         <div className="sidebar_suggestions_img_wrap">
-          <img
-            src="https://instagram.fdac41-1.fna.fbcdn.net/v/t51.2885-19/s150x150/95872355_600891427301029_6376706423606214656_n.jpg?_nc_ht=instagram.fdac41-1.fna.fbcdn.net&_nc_ohc=2VedgFUWocEAX9RyjMr&oh=d186d550ecc72cc64dfe283cfd1a3122&oe=5F98A242"
-            alt=""
-            className="sidebar_suggestions_img"
-          />
+          <img src={photoURL} alt="" className="sidebar_suggestions_img" />
         </div>
         <div className="sidebar_profile_username_main">
-          <b>ssakib4050</b>
+          <b>{username}</b>
         </div>
       </div>
       <div>

@@ -144,6 +144,7 @@
   outline: 0 !important;
   background: #fff;
   color: #0095f6;
+  padding-right: 0px;
 }
 
 .post__comment_panel_button:disabled {
@@ -169,14 +170,17 @@
   display: flex;
   justify-content: space-between;
   padding: 5px;
+  border-bottom: 1px solid lightgray;
 }
 .post__contentModal_content_wrap_content {
   align-items: stretch;
   flex: 1;
   padding: 4px;
+  padding-right: 0;
 }
 .post__contentModal_content_wrap_footer {
   align-items: stretch;
+  border-top: 1px solid lightgray;
 }
 .post__contentModal_content_wrap_header_img_wrap {
   height: 45px;
@@ -208,7 +212,6 @@
 }
 
 .post__contentModal_content_wrap_content_container {
-  border: 2px solid green;
   height: 390px;
   overflow-x: auto;
 }

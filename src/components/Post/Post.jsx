@@ -148,16 +148,17 @@ function Post({
         <Modal.Body>
           <div className="row">
             <div className="col-12 col-lg-8 pr-lg-0">
-              <div className="dev" style={{ height: "100%" }}>
+              <div className="" style={{ height: "100%" }}>
                 <img
                   src={postImage}
                   style={{ height: "100%", width: "100%" }}
+                  alt={postImage}
                 />
               </div>
             </div>
             <div className="col-12 col-lg-4 pl-lg-0 ">
               <div className="post__contentModal_content_wrap">
-                <div className="post__contentModal_content_wrap_header dev">
+                <div className="post__contentModal_content_wrap_header">
                   <div className="post__contentModal_content_wrap_header_container">
                     <div className="post__contentModal_content_wrap_header_img_wrap">
                       <img
@@ -178,7 +179,7 @@ function Post({
                     <FontAwesomeIcon icon={faEllipsisH} />
                   </div>
                 </div>
-                <div className="post__contentModal_content_wrap_content dev">
+                <div className="post__contentModal_content_wrap_content">
                   <div className="post__contentModal_content_wrap_content_container">
                     {/* Comment */}
                     {/* <div className="post__contentModal_content_profile_wrap">
@@ -214,7 +215,7 @@ function Post({
                     {/* {postComments.map((comments) => console.log(comments))} */}
                   </div>
                 </div>
-                <div className="post__contentModal_content_wrap_footer dev">
+                <div className="post__contentModal_content_wrap_footer ">
                   <div className="post__contentModal_content_wrap_footer_wrap">
                     <div className="post__contentModal_content_wrap_footer_wrap_like_info">
                       <div

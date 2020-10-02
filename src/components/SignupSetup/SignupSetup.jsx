@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./SignupSetup.css";
 
 import { auth, storage } from "../../firebase";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-function Signup() {
+function Signup({ currentUser }) {
   const [fullName, setFullName] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [singupSetup, setSingupSetup] = useState(null);
   const [loadingSubmitButton, setLoadSubmitButton] = useState(false);
-  const history = useHistory();
-
-  //   console.log(profileImage);
-  console.log("Signup", auth.currentUser);
 
   const signupHandle = (e) => {
     e.preventDefault();
@@ -32,7 +22,7 @@ function Signup() {
       const file = profileImage;
       const uploadTask = storage
         .ref()
-        // .child(`images/${uuidv4()}.${file}`)
+
         .child(`images/${uuidv4()}.${profileImage.name}`)
         .put(file);
 
@@ -40,13 +30,13 @@ function Signup() {
         "state_changed",
         (snapshot) => {},
         (error) => {
-          //   console.log(error);
           setSingupSetup("Sorry Something Went Wrong");
         },
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
-            console.log(downloadUrl);
+            console.log(fullName);
             const user = auth.currentUser;
+
             user
               .updateProfile({
                 displayName: fullName,
@@ -54,7 +44,8 @@ function Signup() {
               })
               .then(function () {
                 // Update successful.
-                history.push("/");
+
+                window.location.replace("/");
               })
               .catch(function (error) {
                 // An error happened.
@@ -67,26 +58,23 @@ function Signup() {
     } else {
       setSingupSetup("Sorry Something went wrong");
     }
-
-    // auth
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .catch((error) => setSignupError(error.message));
-    // console.log("Sign Up", email, password);
   };
 
   const submitDisable = () => {
-    // if (email && password.length >= 8) {
-    //   return false;
-    // } else {
-    //   return true;
-    // }
+    if (fullName && imageFileTypeMatch(profileImage ? profileImage.name : "")) {
+      return true;
+    } else {
+      return false;
+    }
   };
+
+  console.log(submitDisable());
   return (
-    <div className="login__container dev container-fluid">
-      <div className="login__wrap dev">
+    <div className="login__container container-fluid">
+      <div className="login__wrap">
         <div className="row login__row">
           <div className="col-12 col-md-6 ">
-            <div className="dev login__main">
+            <div className=" login__main">
               <div className="login__brand_wrap">
                 <img
                   src="https://i.pinimg.com/originals/57/6c/dd/576cdd470fdc0b88f4ca0207d2b471d5.png"
@@ -127,7 +115,7 @@ function Signup() {
                   value={!loadingSubmitButton ? "Submit" : "Submitting..."}
                   className="login__input_submit"
                   onClick={signupHandle}
-                  isabled={submitDisable() ? "disabled" : ""}
+                  disabled={!submitDisable() ? "disabled" : ""}
                 />
                 {singupSetup && (
                   <p className="mt-2 text-center text-danger login__login_error">

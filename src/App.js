@@ -8,34 +8,44 @@ import Signup from "./components/Signup/Signup";
 import SignupSetup from "./components/SignupSetup/SignupSetup";
 
 import { auth } from "./firebase";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 function App() {
   const [signedIn, setSignedIn] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [photoURL, setPhotoURL] = useState(null);
+  const [username, setUsername] = useState(null);
 
-  console.log("Apps", auth.currentUser);
+  // console.log("Apps", auth.currentUser);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        setSignedIn(user.email);
-
         var displayName = user.displayName;
-        var email = user.email;
-        var emailVerified = user.emailVerified;
+        // var email = user.email;
+        // var emailVerified = user.emailVerified;
         var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
+        // var isAnonymous = user.isAnonymous;
+        // var uid = user.uid;
+        // var providerData = user.providerData;
+
+        if (displayName) {
+          setSignedIn(user.email);
+        }
+
+        setCurrentUser(auth.currentUser);
+        setPhotoURL(photoURL);
+        setUsername(displayName);
+
         //
-        console.log("Sign In", user);
-        console.log("displayName", displayName);
-        console.log("email", email);
-        console.log("emailVerified", emailVerified);
-        console.log("photoURL", photoURL);
-        console.log("isAnonymous", isAnonymous);
-        console.log("uid", uid);
-        console.log("providerData", providerData);
+        // console.log("Sign In", user);
+        // console.log("displayName", displayName);
+        // console.log("email", email);
+        // console.log("emailVerified", emailVerified);
+        // console.log("photoURL", photoURL);
+        // console.log("isAnonymous", isAnonymous);
+        // console.log("uid", uid);
+        // console.log("providerData", providerData);
       } else {
         setSignedIn(null);
       }
@@ -45,9 +55,9 @@ function App() {
     <div className="app__container">
       {signedIn ? (
         <div>
-          <Navigation />
+          <Navigation photoURL={photoURL} />
 
-          <MainContent />
+          <MainContent photoURL={photoURL} username={username} />
         </div>
       ) : (
         <Switch>
@@ -58,7 +68,7 @@ function App() {
             <Signup />
           </Route>
           <Route path="/signup/setup" exact>
-            <SignupSetup />
+            <SignupSetup currentUser={currentUser} />
           </Route>
         </Switch>
       )}

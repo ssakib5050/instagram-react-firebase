@@ -1,32 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Signup.css";
 
 import { auth } from "../../firebase";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [signupError, setSignupError] = useState("");
+
+  let history = useHistory();
 
   const signupHandle = (e) => {
     e.preventDefault();
 
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .catch((error) => setSignupError(error.message));
-    console.log("Sign Up", email, password);
+    if (submitDisable()) {
+      signupHandled().then(() => history.push("/signup/setup"));
+    }
   };
 
   const submitDisable = () => {
     if (email && password.length >= 8) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   };
+
+  async function signupHandled() {
+    await auth
+      .createUserWithEmailAndPassword(email, password)
+      .catch((error) => setSignupError(error.message));
+    console.log("Sign Up", email, password);
+  }
   return (
     <div className="login__container container-fluid">
       <div className="login__wrap">
@@ -54,14 +61,6 @@ function Signup() {
                 />
 
                 <input
-                  type="text"
-                  className="login__input_email"
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
-                />
-
-                <input
                   type="password"
                   autoComplete="false"
                   className="login__input_email"
@@ -73,6 +72,7 @@ function Signup() {
                   type="submit"
                   className="login__input_submit"
                   onClick={signupHandle}
+                  disabled={!submitDisable() ? "disabled" : ""}
                 />
 
                 {signupError && (

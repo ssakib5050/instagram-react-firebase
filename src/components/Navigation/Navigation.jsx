@@ -20,7 +20,7 @@ import firebase from "firebase";
 import { db, storage, auth } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 
-function Navigation() {
+function Navigation({ photoURL }) {
   const [navInputFocus, setNavInputFocus] = useState(false);
   const [navInput, setNavInput] = useState("");
   const [postCreateModal, setPostCreateModal] = useState(false);
@@ -59,7 +59,7 @@ function Navigation() {
               postCaption: postCaption,
               postTags: postTags,
               postImage: downloadUrl,
-              profileImage: "",
+              profileImage: photoURL,
               likes: [],
               comments: [],
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),

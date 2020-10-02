@@ -6,7 +6,7 @@ import Sidebar from "../Sidebar/Sidebar";
 
 import { db } from "../../firebase";
 
-function MainContent() {
+function MainContent({ photoURL, username }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -20,11 +20,9 @@ function MainContent() {
       });
   }, []);
 
-  // console.log("Main ---> ", posts);
-
   return (
-    <div className="mainContent__container dev">
-      <div className="mainContent_wrapper container dev ">
+    <div className="mainContent__container">
+      <div className="mainContent_wrapper container ">
         <div className="row">
           <div className="col-12 col-lg-7">
             {posts.map((post) => (
@@ -41,12 +39,10 @@ function MainContent() {
                 timestamp={post.post.timestamp}
               />
             ))}
-
-            {/* {posts.map((post) => console.log("This -----> ", post.id))} */}
           </div>
 
           <div className="col-5 d-none d-lg-block">
-            <Sidebar />
+            <Sidebar photoURL={photoURL} username={username} />
           </div>
         </div>
       </div>

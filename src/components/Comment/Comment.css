@@ -1,6 +1,6 @@
 .comments__wrap {
-  border: 1px solid;
   position: relative;
+  margin-bottom: 1rem;
 }
 .comment__image_wrap {
   width: 40px;

@@ -22,12 +22,12 @@ function Comment({
   commentLiked,
   timestamp,
 }) {
-  console.log("postId --> ", postId);
-  console.log("commentId --> ", commentId);
-  console.log("username --> ", username);
-  console.log("comment --> ", comment);
-  console.log("commentLiked --> ", commentLiked);
-  console.log("timestamp --> ", timestamp);
+  // console.log("postId --> ", postId);
+  // console.log("commentId --> ", commentId);
+  // console.log("username --> ", username);
+  // console.log("comment --> ", comment);
+  // console.log("commentLiked --> ", commentLiked);
+  // console.log("timestamp --> ", timestamp);
 
   const commentLikedHandle = () => {
     // console.log("postId -> ", postId);
@@ -65,7 +65,7 @@ function Comment({
   };
 
   return (
-    <div className="comments__container dev">
+    <div className="comments__container">
       <div className="comments__wrap">
         <div className="comment__image_wrap">
           <img src={profileImage} alt="" className="comment__image" />
